@@ -69,7 +69,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Pro_usuar`(
     IN contrat int,
     IN dir VARCHAR(50),
     IN corre VARCHAR(100),
-    IN contr VARCHAR (500),
+    IN contr VARbinary (500),
     IN fecna DATE
 )
 BEGIN
