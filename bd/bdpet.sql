@@ -23,7 +23,7 @@ CREATE TABLE Usuario (
     Contrato int,
     Dir VARCHAR(50),
     Correo VARCHAR(100),
-    contra varBINARY (50),
+    contra varbinary (500),
     FecNam DATE,
     FOREIGN KEY (TipoDoc) REFERENCES TipoDeDocumento(IdTipo),
 	CONSTRAINT FK_ROL FOREIGN KEY (IdRol) REFERENCES roles(IdRol)
@@ -150,5 +150,4 @@ CREATE TABLE Vacunas_EsquemaVacunas (
 );
 
 
-
-select nom,ape1, hex(CONTRA), cast(aes_decrypt(contra,'1234')as char) as contraseña from usuario;
+select nom, ape1, contra as "contraseña encriptada", cast(aes_decrypt(contra,'1234') as char) as 'contraseña desencriptada' from usuario
