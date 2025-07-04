@@ -187,7 +187,34 @@ END$$
 DELIMITER ;
 
 
+-- Funcion
+DELIMITER $$
 
+CREATE FUNCTION CalcularEdadMascotaEnAnios(
+    p_IdMascota BIGINT
+)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE v_FechaNacimiento TIMESTAMP;
+    DECLARE v_EdadAnios INT;
+
+    -- Obtener la fecha de nacimiento de la mascota
+    SELECT FecNac INTO v_FechaNacimiento
+    FROM Mascota
+    WHERE IdMascota = p_IdMascota;
+
+    -- Calcular la edad en años si la fecha de nacimiento no es nula
+    IF v_FechaNacimiento IS NOT NULL THEN
+        SET v_EdadAnios = TIMESTAMPDIFF(YEAR, v_FechaNacimiento, CURDATE());
+    ELSE
+        SET v_EdadAnios = NULL; -- O puedes devolver -1 o algún otro valor para indicar que no se encontró la mascota o su fecha de nacimiento
+    END IF;
+
+    RETURN v_EdadAnios;
+END$$
+
+DELIMITER ;
 
 
 

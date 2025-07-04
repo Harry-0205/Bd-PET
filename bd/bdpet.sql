@@ -149,5 +149,25 @@ CREATE TABLE Vacunas_EsquemaVacunas (
     FOREIGN KEY (IdEsquema) REFERENCES EsquemaVacunas(IdEsquema)
 );
 
+select m.nombre, d.nom , d.doc 
+from mascota as m
+join usuario as d on m.Docusuario = d.doc;
 
-select nom, ape1, contra as "contraseña encriptada", cast(aes_decrypt(contra,'1234') as char) as 'contraseña desencriptada' from usuario
+select r.raza, e.especie 
+from raza as r
+join especie as e on r.idespecie = e.Idespecie;
+
+SELECT a.fecag, p.procedimiento, m.nombre
+FROM agendamiento AS a
+JOIN procedimiento AS p ON p.idprocedimiento = a.idprocedimiento
+JOIN mascota AS m ON a.idmascota = m.idmascota;
+
+SELECT
+IdMascota,
+Nombre AS 'Nombre Mascota',
+FecNac AS 'Fecha Nacimiento',
+CalcularEdadMascotaEnAnios(IdMascota) AS 'Edad En Años'
+FROM
+Mascota
+
+
