@@ -168,6 +168,8 @@ Nombre AS 'Nombre Mascota',
 FecNac AS 'Fecha Nacimiento',
 CalcularEdadMascotaEnAnios(IdMascota) AS 'Edad En Años'
 FROM
-Mascota
+Mascota;
+
+Select cast(contra as char), cast(aes_decrypt(contra,'1234') as char) from usuario;
 
 
