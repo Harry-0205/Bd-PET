@@ -217,6 +217,87 @@ END$$
 DELIMITER ;
 
 
+DELIMITER $$
+
+CREATE FUNCTION CalcularCostoProcedimientoPorPeso(
+    p_IdProcedimiento BIGINT,
+    p_PesoMascotaKg DECIMAL(10,2)
+)
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE v_CostoBase INT;
+    DECLARE v_CostoCalculado DECIMAL(10,2);
+    DECLARE v_CostoPorKg DECIMAL(10,2) DEFAULT 5000.00;
+
+
+    SELECT Costo INTO v_CostoBase
+    FROM Procedimiento
+    WHERE IdProcedimiento = p_IdProcedimiento;
+
+
+    IF v_CostoBase IS NOT NULL THEN
+        SET v_CostoCalculado = v_CostoBase + (p_PesoMascotaKg * v_CostoPorKg);
+    ELSE
+        SET v_CostoCalculado = NULL; 
+    END IF;
+
+    RETURN v_CostoCalculado;
+END$$
+
+DELIMITER ;
+
+-- vistas
+
+CREATE VIEW VistaPerrosVacunados AS
+SELECT
+    m.Nombre AS 'Nombre Mascota',
+    v.Vacuna AS 'Nombre Vacuna',
+    esq.fecVacu AS 'Fecha de Vacunación'
+FROM
+    Mascota AS m
+JOIN
+    EsquemaVacunas AS esq ON m.IdEsquema = esq.IdEsquema
+JOIN
+    Vacunas AS v ON esq.IdVacuna = v.IdVacuna
+WHERE
+    v.IdEspecie = (SELECT IdEspecie FROM Especie WHERE Especie = 'canino');
+    
+    
+    CREATE VIEW VistaUsuariosCC AS
+SELECT
+    u.Doc AS 'Documento',
+    u.Nom AS 'Nombre',
+    u.Ape1 AS 'Primer Apellido',
+    u.Ape2 AS 'Segundo Apellido',
+    td.TipoDoc AS 'Tipo de Documento',
+    u.Correo AS 'Correo Electrónico'
+FROM
+    Usuario AS u
+JOIN
+    TipoDeDocumento AS td ON u.TipoDoc = td.IdTipo
+WHERE
+    td.TipoDoc = 'CC';
+    
+    
+    CREATE VIEW VistaGeneralPerros AS
+SELECT
+    m.Nombre AS 'Nombre Mascota',
+    m.FecNac AS 'Fecha de Nacimiento',
+    r.Raza AS 'Raza',
+    c.Color AS 'Color',
+    u.Nom AS 'Nombre Dueño',
+    u.Ape1 AS 'Apellido Dueño'
+FROM
+    Mascota AS m
+JOIN
+    Raza AS r ON m.IdRaza = r.IdRaza
+JOIN
+    Color AS c ON m.IdColor = c.IdColor
+JOIN
+    Usuario AS u ON m.DocUsuario = u.Doc
+WHERE
+    r.IdEspecie = (SELECT IdEspecie FROM Especie WHERE Especie = 'canino');
 
 
 

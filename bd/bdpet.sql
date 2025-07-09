@@ -170,6 +170,29 @@ CalcularEdadMascotaEnAnios(IdMascota) AS 'Edad En Años'
 FROM
 Mascota;
 
+SELECT
+    p.Procedimiento,
+    CalcularCostoProcedimientoPorPeso(p.IdProcedimiento, 10.5) AS 'Costo Calculado (10.5 kg)'
+FROM
+    Procedimiento AS p
+WHERE
+    p.IdProcedimiento = 1; 
+
+SELECT
+    m.Nombre AS 'Nombre Mascota',
+    CalcularCostoProcedimientoPorPeso(1, 15.0) AS 'Costo Consulta General para Mascota (15 kg)'
+FROM
+    Mascota AS m
+WHERE
+    m.IdMascota = 1;
+
+
 Select cast(contra as char), cast(aes_decrypt(contra,'1234') as char) from usuario;
+
+SELECT * FROM VistaPerrosVacunados;
+
+SELECT * FROM VistaUsuariosCC;
+
+SELECT * FROM VistaGeneralPerros;
 
 
