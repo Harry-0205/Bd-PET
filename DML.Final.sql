@@ -1,4 +1,22 @@
+drop database prueba;
+create database prueba;
 USE prueba;
+
+
+#tiggers necesarios
+
+DROP TRIGGER IF EXISTS `prueba`.`usuario_AFTER_INSERT`;
+
+DELIMITER $$
+USE `prueba`$$
+CREATE DEFINER=`root`@`localhost` TRIGGER `prueba`.`usuario_AFTER_INSERT` AFTER INSERT ON `usuario` FOR EACH ROW
+BEGIN
+INSERT INTO usuario_roles(Doc, Rol,id_vet)
+    VALUES (NEW.id, 1, null);
+END$$
+DELIMITER ;
+
+#tablas fuertes
 
 INSERT INTO color (nom_color)
 VALUES
@@ -94,3 +112,24 @@ VALUES
 (40000, 7, '0.5 ml', 'Enfermedad vírica hemorrágica', '1 año'),
 (80000, 8, '2 ml', 'Influenza Equina', '1 año'),
 (90000, 8, '2 ml', 'Tétanos', '1 año');
+
+#inserts necesarios para probar funcionalidad en springboot
+
+INSERT INTO cuenta (correo, contra)
+VALUES
+('juanperez@example.com', '123456'),
+('mariagomez@example.com', 'abcdef'),
+('carlorodriguez@example.com', 'qwerty');
+
+INSERT INTO usuario (fec_nac, contrato, id, id_tipo, tel, ape1, ape2, correo, dir, nom)
+VALUES
+('1990-05-15', 10001, 1, 1, 3001234567, 'Pérez', 'López', 'juanperez@example.com', 'Calle 10 #23-45, Bogotá', 'Juan'),
+('1985-08-20', 10002, 2, 2, 3109876543, 'Gómez', 'Martínez', 'mariagomez@example.com', 'Carrera 7 #54-32, Medellín', 'María'),
+('1992-12-01', 10003, 3, 3, 3204567890, 'Rodríguez', 'Fernández', 'carlorodriguez@example.com', 'Av. 30 #12-60, Cali', 'Carlos');
+
+INSERT INTO veterinarias (id_vet, correo, direc, foto, nom)
+VALUES
+(1, 'contacto@vetcentral.com', 'Calle 45 #12-34, Bogotá', 'fotos/vetcentral.jpg', 'Veterinaria Central');
+
+
+
